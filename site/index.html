@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VisaReady Pack: Schengen cover letter and itinerary</title>
+<meta name="description" content="Check your Schengen visa trip for inconsistencies, then get a cover letter and day-by-day itinerary built from your own information. Runs entirely in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#tool">Skip to the tool</a>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="index.html">VisaReady <span>Pack</span></a>
+    <nav aria-label="Main"><a href="#how">How it works</a><a href="#faq">FAQ</a></nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Schengen short-stay (Type C) visa</p>
+      <h1>Catch the inconsistencies that get visa applications refused</h1>
+      <p class="lead">Dates that don't line up, a night with no accommodation, insurance that ends a day early, applying to the wrong consulate. Check your trip for free, then get a cover letter and a day-by-day itinerary written from your own information.</p>
+      <p class="stat">14.6% of Schengen visa applications were refused in 2025.<br><small>Source: European Commission statistics via hellosafe.com</small></p>
+      <div class="privacy-note" role="note">
+        <strong>Your data never leaves your device.</strong> Everything is processed in your browser. Nothing you type is sent to us or stored on a server.
+      </div>
+      <p><a class="btn" href="#tool">Check my trip, free</a></p>
+    </div>
+  </section>
+
+  <section id="how" class="wrap section">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><h3>Enter your trip</h3><p>Your details, each city with dates and accommodation, flights, insurance and how you fund the trip.</p></li>
+      <li><h3>Fix what the check finds</h3><p>Gaps between stays, overlapping dates, flights that don't match, insurance below €30,000, and which country's consulate you must apply to.</p></li>
+      <li><h3>Print your pack</h3><p>For €12, one time: the full cover letter to the consulate and a day-by-day itinerary, ready to save as PDF.</p></li>
+    </ol>
+  </section>
+
+  <section id="tool" class="wrap section">
+    <h2>Your trip</h2>
+    <p class="muted">Fields marked * are needed for the letter. Your input is saved in this browser only, so you can come back later.</p>
+    <div class="tool">
+      <form id="trip" novalidate>
+        <fieldset>
+          <legend>About you</legend>
+          <div class="grid">
+            <label>Full name (as in passport) *<input name="name" autocomplete="name"></label>
+            <label>Nationality *<input name="nationality" placeholder="e.g. Brazilian"></label>
+            <label>Passport number *<input name="passport" autocomplete="off"></label>
+            <label>Country of residence *<input name="homeCountry" autocomplete="country-name"></label>
+            <label class="full">Home address<input name="address" autocomplete="street-address"></label>
+            <label>Email<input name="email" type="email" autocomplete="email"></label>
+            <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Purpose and consulate</legend>
+          <div class="grid">
+            <label>Purpose of travel *
+              <select name="purpose">
+                <option value="tourism">Tourism</option>
+                <option value="family">Visiting family or friends</option>
+                <option value="business">Business</option>
+                <option value="event">Attending an event</option>
+              </select>
+            </label>
+            <label>City where you apply<input name="consulateCity" placeholder="e.g. São Paulo"></label>
+            <label class="full">Country you plan to apply to (optional)
+              <select name="applyTo" id="applyTo"><option value="">Not sure yet</option></select>
+            </label>
+            <label class="full">Purpose details (optional)
+              <textarea name="purposeDetail" rows="2" placeholder="e.g. I will attend my cousin's wedding in Rome on 16 April 2027."></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Stays</legend>
+          <p class="hint">One row per city. Departure from one city is usually the arrival date of the next.</p>
+          <div id="legs"></div>
+          <button type="button" class="btn ghost" id="addLeg">+ Add another city</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Flights</legend>
+          <div class="grid">
+            <label>Arrival flight date<input name="flightIn" type="date"></label>
+            <label>Arrival flight number<input name="flightInNo" placeholder="e.g. TP 088"></label>
+            <label>Return flight date<input name="flightOut" type="date"></label>
+            <label>Return flight number<input name="flightOutNo"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Travel medical insurance</legend>
+          <div class="grid">
+            <label>Insurer<input name="insurer"></label>
+            <label>Cover amount (€)<input name="insuranceCover" type="number" min="0" step="1000" inputmode="numeric" placeholder="30000"></label>
+            <label>Valid from<input name="insuranceFrom" type="date"></label>
+            <label>Valid to<input name="insuranceTo" type="date"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Funding</legend>
+          <div class="radios" role="radiogroup" aria-label="Who pays for the trip">
+            <label class="inline"><input type="radio" name="funding" value="self" checked> I pay myself</label>
+            <label class="inline"><input type="radio" name="funding" value="sponsor"> A sponsor pays</label>
+          </div>
+          <label data-funding="self">Available funds (optional)<input name="funds" placeholder="e.g. €4,500"></label>
+          <label data-funding="sponsor" hidden>Sponsor's full name and relation<input name="sponsor" placeholder="e.g. my aunt, Maria Silva"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Work and ties to home</legend>
+          <div class="grid">
+            <label>Job title<input name="job" placeholder="e.g. a nurse"></label>
+            <label>Employer<input name="employer"></label>
+            <label class="inline full"><input type="checkbox" name="leave"> My employer has approved leave for these dates</label>
+            <label class="full">Ties to your home country (optional)
+              <textarea name="ties" rows="2" placeholder="e.g. I own an apartment in Curitiba and my children attend school there."></textarea>
+            </label>
+          </div>
+        </fieldset>
+        <p class="hint"><button type="button" class="linkbtn" id="clearForm">Clear all saved input</button></p>
+      </form>
+
+      <aside class="results" aria-labelledby="check-h">
+        <div class="card" id="check" aria-live="polite">
+          <h3 id="check-h">Consistency check <span class="tag">Free</span></h3>
+          <div id="checkBody"></div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="card unlock" id="unlock">
+      <h3>Get the full pack, €12 one-time</h3>
+      <p>Full cover letter and full day-by-day itinerary, with print and PDF. No subscription.</p>
+      <a class="btn" href="LEMON_CHECKOUT_URL" rel="noopener">Get the full pack, €12</a>
+      <details class="license">
+        <summary>I have a license key</summary>
+        <form id="licenseForm">
+          <label>License key (from your purchase email)<input id="licenseKey" autocomplete="off" spellcheck="false" required></label>
+          <button class="btn ghost" type="submit">Unlock</button>
+          <p id="licenseMsg" class="hint" role="status"></p>
+        </form>
+      </details>
+    </div>
+    <p id="unlocked" class="unlocked-note" hidden>Pack unlocked on this browser. <button type="button" class="linkbtn" id="forget">Remove license from this browser</button></p>
+
+    <section class="doc card" id="letterSec" aria-labelledby="letter-h">
+      <div class="doc-head">
+        <h3 id="letter-h">Cover letter</h3>
+        <button type="button" class="btn ghost paid" data-print="letter">Print / save as PDF</button>
+      </div>
+      <div id="letterBody" class="letter"></div>
+    </section>
+
+    <section class="doc card" id="itinSec" aria-labelledby="itin-h">
+      <div class="doc-head">
+        <h3 id="itin-h">Day-by-day itinerary</h3>
+        <button type="button" class="btn ghost paid" data-print="itin">Print / save as PDF</button>
+      </div>
+      <div id="itinBody"></div>
+    </section>
+  </section>
+
+  <section id="faq" class="wrap section">
+    <h2>Questions</h2>
+    <details><summary>Is this legal advice?</summary><p>No. VisaReady Pack formats the information you give it into a letter and an itinerary, and checks it for inconsistencies. We never create fake bookings or tickets; you need real reservations. Approval is decided only by the consulate.</p></details>
+    <details><summary>Which consulates does it work for?</summary><p>All 29 Schengen states. The check tells you which country's consulate to apply to, based on where you spend the longest time (or where you enter first, if equal).</p></details>
+    <details><summary>Is my data stored?</summary><p>No. Everything runs in your browser. Your input is saved only in this browser's local storage so you don't lose it, and you can clear it at any time. The only request we make is to Lemon Squeezy to check your license key, and it contains only the key.</p></details>
+    <details><summary>Can I get a refund?</summary><p>Yes. If the pack doesn't work for you, ask within 14 days of purchase at <a href="mailto:bernardo.carvalho20@outlook.com">bernardo.carvalho20@outlook.com</a>.</p></details>
+    <details><summary>What language is the pack in?</summary><p>English, which most consulates accept. Check your consulate's requirements before you apply.</p></details>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p>VisaReady Pack is not affiliated with any government or consulate and does not give legal or immigration advice.</p>
+    <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:bernardo.carvalho20@outlook.com">Contact</a></p>
+  </div>
+</footer>
+
+<template id="legTpl">
+  <div class="leg">
+    <div class="leg-head"><strong class="leg-title">City</strong><button type="button" class="linkbtn rm">Remove</button></div>
+    <div class="grid">
+      <label>City<input data-f="city"></label>
+      <label>Country<select data-f="country"></select></label>
+      <label class="other" hidden>Country name<input data-f="otherCountry"></label>
+      <label>Arrive<input type="date" data-f="arrive"></label>
+      <label>Depart<input type="date" data-f="depart"></label>
+      <label class="full">Accommodation name and address<input data-f="stay" placeholder="e.g. Hotel Lumière, 12 Rue Cler, Paris"></label>
+      <label class="full">Plan for these days (optional)<input data-f="plan" placeholder="e.g. Museums and old town"></label>
+    </div>
+  </div>
+</template>
+
+<script src="pack.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
